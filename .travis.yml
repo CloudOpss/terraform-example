@@ -3,6 +3,7 @@ services:
 
 before_install:
   - docker pull hashicorp/terraform:0.11.14
+  - docker run -i -v $(pwd):/app -w /app -t hashicorp/terraform:0.11.14 init
 
 script:
-  - terraform version
+  - docker run -i -v $(pwd):/app -w /app -t hashicorp/terraform:0.11.14 validate
