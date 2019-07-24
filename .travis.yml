@@ -3,7 +3,16 @@ services:
 
 before_install:
   - docker pull hashicorp/terraform:0.11.14
-
-script:
   - docker run -i -v $(pwd):/app -w /app/terraform-lambda -t hashicorp/terraform:0.11.14 init
-  - docker run -i -v $(pwd):/app -w /app/terraform-lambda -t hashicorp/terraform:0.11.14 validate
+
+jobs:
+  include:
+    - stage: Tests
+      script:
+        - docker run -i -v $(pwd):/app -w /app/terraform-lambda -t hashicorp/terraform:0.11.14 validate
+    - stage: Build
+      script:
+        - #docker run -i -v $(pwd):/app -w /app/terraform-lambda -t hashicorp/terraform:0.11.14 validate
+    - stage: Deploy
+      script:
+        - #docker run -i -v $(pwd):/app -w /app/terraform-lambda -t hashicorp/terraform:0.11.14 validate
