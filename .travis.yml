@@ -1,23 +1,22 @@
 services:
-  - docker
-
+- docker
 env:
   global:
   - DOCKER_TERRAFORM=hashicorp/terraform:0.11.14
   - DIR_TERRAFORM=terraform-lambda
-
+  - secure: ohWIQTreBU+Hgjy85M634RvMsgaVAj+NrwnThYhl2YVA9PDcwVX84Xe7LBk2tP89w315PFHiXZQmy8PVgj/v3B21VDryizDahhg/OBw4p33XvRctbs175hdnYnJk7W1HnIWiAHRwMLbW1xPouTy+o2InZlw6ThLLcIqaCkpuC/mLswGdFxBl6hwsPJLzd2SE/Bfh7k2BvNugDsPlhjv2XdZEVUj5WyXyT/xK6/VihGkIJcCMtVY3ix7ZVnOms7o4jmB5Yv01uH6+gVi5gpdbTTAZlj5yQUpvcj2TUu/51SEGiHAb00C6BF3O/TOOMp1CgBRhfLUo7mhq2fcMhn2WSHByCYJY521+5O/gkkyXNRXFNgL7oZg4Q5MAOD3R2KtlzrWWTHqaJPhGob4jvjEv0f9Z/v4OoAAXzEwaxdZiLJ1JdkqrFsCYQN9/0NTSz/wlFvhkzM7VkaSV62Agg/nnD6LZm3A0Q1icmPD9/77ZZjRZAKSeT6VJcU8x/8m9KdUTtlMiilQMxD1lJr/Vf2eHfvHpTkg+irrcB70wZCdR0QUP5xcirQNjkfwUXOVSekUfTbE5QoaYArTgqqZYTB2lLAoRQDMnlWrHn6e1SNTTkv8W+lsUOnj8bLNQxyYPSxx2YjjcdKwyFufsI7V3aN1tD+CMAr/5VSGyzhy2IcFKWA4=
+  - secure: eK9AJHlAecaWGQmv3GFxzeGC2KzBZGai39yBMuhNLACBZheQorm+VDgrXr8IMMlik27RaGFrpqigvQZF/T9abjWze1+9NaTSrVqvCzO15/naK7dbDi58YRSXzY6BL65RF+YNHBom9ZMaA85dcdeVNsoBNyLOkizBmeKpyE0V3sxo+PwJ8D4qONYaSjnGVNz9/v01CHL6PBY+MhXq+5G8Lwot9QlaUWMyPfOhU7FT4u8ArbNZrdtAiPeT1oTRISkP8ZcXzW3KmEdXJaG+ov1eAGSLO+SWvnMggp1VVPxhXWI9mHsBrUwBP97HwpVn27BhHQSynXZsKLpcrbdWGvR1Vlv4/xTpqBAxl3AyGBJCLDZod7YOPAPIMf2o4CsewJX3bfQ1jI/HRdfLl2K8DLs8rDl6vh4PuEn4VG7CySPkaYWEZI8/5tTgee/EPQWmcJFzA2Pt+24mjoua8im21pFN2peFrzxiXPGW3UODaFoY65E+BgvBolpz00aSTJpoedzRdmU+XD6Z8fqKS7l74IGsHlVQ56iV2nhnePOfvnjf/X7cWFfFfLy3gvDFLUR9N5bqv3waeAy0V4EBLlbrwgqj2LdgiTDNJuI6hzP32HEIm1mMKaY7UEHvRsWRaWqfUxBXGL0o/2PAM+Y5eg1zSnjrMAh6qn6Tz1v1y1aO8x5dt5Q=
 before_install:
-  - docker pull $DOCKER_TERRAFORM
-  - docker run -i -v $(pwd):/app -w /app/$DIR_TERRAFORM -t $DOCKER_TERRAFORM init
-
+- docker pull $DOCKER_TERRAFORM
+- docker run -i -v $(pwd):/app -w /app/$DIR_TERRAFORM -t $DOCKER_TERRAFORM init
 jobs:
   include:
-    - stage: Tests
-      script:
-        - docker run -i -v $(pwd):/app -w /app/$DIR_TERRAFORM -t $DOCKER_TERRAFORM validate
-    - stage: Build
-      script:
-        - docker run -i -v $(pwd):/app -w /app/$DIR_TERRAFORM -t $DOCKER_TERRAFORM plan
-    - stage: Deploy
-      script:
-        - docker run -i -v $(pwd):/app -w /app/$DIR_TERRAFORM -t $DOCKER_TERRAFORM apply
+  - stage: Tests
+    script:
+    - docker run -i -v $(pwd):/app -w /app/$DIR_TERRAFORM -t $DOCKER_TERRAFORM validate
+  - stage: Build
+    script:
+    - docker run -i -v $(pwd):/app -w /app/$DIR_TERRAFORM -t $DOCKER_TERRAFORM plan
+  - stage: Deploy
+    script:
+    - docker run -i -v $(pwd):/app -w /app/$DIR_TERRAFORM -t $DOCKER_TERRAFORM apply

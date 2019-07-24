@@ -1,5 +1,7 @@
 # terraform-example
 
+[![Build Status](https://travis-ci.org/alexbaptista/terraform-example.svg?branch=master)](https://travis-ci.org/alexbaptista/terraform-example)
+
 Practical example of using Terraform modules for Concrete DevOps Talk:
 
 ## Standard
