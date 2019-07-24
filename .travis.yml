@@ -1,18 +1,23 @@
 services:
   - docker
 
+env:
+  global:
+  - DOCKER_TERRAFORM=hashicorp/terraform:0.11.14
+  - DIR_TERRAFORM=terraform-lambda
+
 before_install:
-  - docker pull hashicorp/terraform:0.11.14
-  - docker run -i -v $(pwd):/app -w /app/terraform-lambda -t hashicorp/terraform:0.11.14 init
+  - docker pull $DOCKER_TERRAFORM
+  - docker run -i -v $(pwd):/app -w /app/$DIR_TERRAFORM -t $DOCKER_TERRAFORM init
 
 jobs:
   include:
     - stage: Tests
       script:
-        - docker run -i -v $(pwd):/app -w /app/terraform-lambda -t hashicorp/terraform:0.11.14 validate
+        - docker run -i -v $(pwd):/app -w /app/$DIR_TERRAFORM -t $DOCKER_TERRAFORM validate
     - stage: Build
       script:
-        - #docker run -i -v $(pwd):/app -w /app/terraform-lambda -t hashicorp/terraform:0.11.14 validate
+        - docker run -i -v $(pwd):/app -w /app/$DIR_TERRAFORM -t $DOCKER_TERRAFORM plan
     - stage: Deploy
       script:
-        - #docker run -i -v $(pwd):/app -w /app/terraform-lambda -t hashicorp/terraform:0.11.14 validate
+        - docker run -i -v $(pwd):/app -w /app/$DIR_TERRAFORM -t $DOCKER_TERRAFORM apply
